@@ -27,7 +27,8 @@ EXPOSE 8025
 EXPOSE 8143
 
 WORKDIR /home/smtp
-RUN sudo maildirmake Maildir
+RUN maildirmake Maildir
+RUN echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
 
 ADD imap-start.sh /home/smtp/
 ADD webmail-start.sh /home/smtp/
