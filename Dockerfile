@@ -19,8 +19,7 @@ RUN sudo a2enmod ssl
 
 # configure redirection on apache
 ADD 000-default.conf /etc/apache2/sites-enabled/
-RUN sudo mv /var/www/sqwebmail /var/www/html/
-ADD .htaccess /var/www/html/.htaccess
+RUN sudo mv /var/www/sqwebmail /var/www/html/§
 # Generate script to run at startup
 
 # Expose the ports
