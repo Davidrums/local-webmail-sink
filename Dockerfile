@@ -1,6 +1,7 @@
 FROM httpd:2.2
 
 ENV DEBIAN_FRONTEND noninterative
+ENV FQDN localhost
 
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 
@@ -14,21 +15,24 @@ RUN  echo  "smtp    ALL=NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 USER smtp
 # enable cgi scripts
 RUN sudo a2enmod cgi
+RUN sudo a2enmod ssl
 
 # configure redirection on apache
 ADD 000-default.conf /etc/apache2/sites-enabled/
 RUN sudo mv /var/www/sqwebmail /var/www/html/
-
+ADD .htaccess /var/www/html/.htaccess
 # Generate script to run at startup
 
-# Expose the HTTP port
+# Expose the ports
 EXPOSE 8080
 EXPOSE 8025
 EXPOSE 8143
+EXPOSE 9443
 
 WORKDIR /home/smtp
 RUN maildirmake Maildir
 RUN echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
+RUN echo "Listen 9443" | sudo tee /etc/apache2/ports.conf
 
 ADD imap-start.sh /home/smtp/
 ADD webmail-start.sh /home/smtp/
