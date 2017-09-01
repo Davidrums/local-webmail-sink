@@ -33,11 +33,13 @@ RUN maildirmake Maildir
 RUN echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
 RUN echo "Listen 9443" | sudo tee /etc/apache2/ports.conf
 
+ADD generate-certs.sh /home/smtp/
 ADD imap-start.sh /home/smtp/
 ADD webmail-start.sh /home/smtp/
 ADD start.sh /home/smtp/
 
 USER root
+RUN chmod +x /home/smtp/generate-certs.sh
 RUN chmod +x /home/smtp/imap-start.sh
 RUN chmod +x /home/smtp/webmail-start.sh
 RUN chmod +x /home/smtp/start.sh
