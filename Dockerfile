@@ -26,12 +26,12 @@ RUN sudo mv /var/www/sqwebmail /var/www/html/§
 EXPOSE 8080
 EXPOSE 8025
 EXPOSE 8143
-EXPOSE 9443
+EXPOSE 443
 
 WORKDIR /home/smtp
 RUN maildirmake Maildir
 RUN echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
-RUN echo "Listen 9443" | sudo tee /etc/apache2/ports.conf
+RUN echo "Listen 443" | sudo tee /etc/apache2/ports.conf
 
 ADD generate-certs.sh /home/smtp/
 ADD imap-start.sh /home/smtp/
